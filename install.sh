@@ -1,3 +1,5 @@
+echo "Started dotfiles/install.sh" > ~/dotfiles-install.log
+
 # If PowerShell isn't installed, install PowerShell
 if ! command -v pwsh &> /dev/null
 then
