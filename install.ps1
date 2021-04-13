@@ -4,7 +4,12 @@ Write-Verbose 'Starting install.ps1' -Verbose 4>&1 > $logFileName
 $configPath = Join-Path $PSScriptRoot '.config'
 
 $homeConfigPath = Join-Path '~' '.config'
-Write-Verbose "Directory $homeConfigPath $((Test-Path -Path $homeConfigPath) ? 'exists' : 'does not exist')" -Verbose 4>&1 > $logFileName
+if (Test-Path -Path $homeConfigPath -PathType Container) {
+    Write-Verbose "Directory $homeConfigPath exists" -Verbose 4>&1 > $logFileName
+} else {
+    Write-Verbose "Directory $homeConfigPath does not exist" -Verbose 4>&1 > $logFileName
+    New-Item -Path $homeConfigPath -ItemType Directory -Verbose 2>&1 4>&1 >> $logFileName
+}
 
 # Set up symlinks
 Get-ChildItem -Path $configPath | ForEach-Object {
